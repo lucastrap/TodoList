@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const taskInput = document.getElementById('taskInput');
     const taskList = document.getElementById('taskList');
 
-    // Function to fetch tasks from the server
+    // Recupere les taches
     function fetchTasks() {
         fetch('/api/tasks')
             .then(response => response.json())
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
             });
     }
 
-    // Function to add a task
+    // Ajout taches
     taskForm.addEventListener('submit', function(event) {
         event.preventDefault();
         const taskTitle = taskInput.value;
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // Function to delete a task
+    // Supprime tache
     function deleteTask(id) {
         fetch(`/api/tasks/${id}`, {
             method: 'DELETE',
@@ -48,6 +48,5 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(() => fetchTasks());
     }
 
-    // Initial fetch of tasks
     fetchTasks();
 });
