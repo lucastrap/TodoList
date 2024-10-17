@@ -77,4 +77,20 @@ class TaskController extends AbstractController
 
         return new JsonResponse(['error' => 'Task not found'], 404);
     }
+
+    #[Route('/api/tasks/{id}', methods: ['PUT'])]
+    public function completeTask(int $id): JsonResponse
+    {
+        $task = $this->entityManager->getRepository(Task::class)->find($id);
+        
+        if ($task) {
+            $task->setCompleted(true);
+            $this->entityManager->flush(); 
+    
+            return new JsonResponse(['message' => 'Task completed successfully'], 200);
+        }
+    
+        return new JsonResponse(['error' => 'Task not found'], 404);
+    }
+    
 }
