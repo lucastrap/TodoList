@@ -1,43 +1,33 @@
 npm test
 
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
 
-# Ajouter un dessin ASCII
-echo "quu..__
- $$$b  \`---.__
-  \"$$b        \`--.                          ___.---uuudP
-   \`$$b           \`.__.------.__     __.---'      $$$$\"              .
-     \"\$b          -'            \`-.-'            $$$\"              .'|
-       \".                                       d\$\"             _.'  |
-         \`.   /                              ...\"             .'     |
-           \`./                           ..::-'            _.'       |
-            /                         .:::-'            .-'         .'
-           :                          ::''\\          _.'            |
-          .' .-.             .-.           \`      .'               |
-          : /'\$|           .@\"\$\\           \`   .'              _.-'
-         .'|\$u\$\$|          |\$,\$|           |  <            _.-'
-         | \`:\$:'          :\$\$\$|           \`  \`-       .-'
-         :                  \`\"--'             |    \`-.     \\
-        :##.       ==             .###.       \`.      \`    \`\\
-        |##:                      :###:        |        >     >
-        |#'     \`..'`..'          \`###'        x:      /     /
-         \\                                   xXX|     /    ./
-          \\                                xXXX'|    /   ./
-          /`-.                                  \`  /   /
-         :    \`-  ...........,                   | /  .'
-         |         \`:::'       .            |<    \`-.
-         |             \`          |           x| \\ \`.:``.
-         |                         .'    /'   xXX|  \`:`M`M':.
-         |    |                    ;    /:' xXXX'|  -'MMMMM:'
-         \`  .'                   :    /:'       |-'MMMM.-'
-          |  |                   .'   /'        .'MMM.-'
-          \`'                   :  ,'          |MMM<
-            |                     \`'            |tbap\\
-             \\                                  :MM.-'
-              \\                 |              .''
-               \\.               \`            /
-                /     .:::::::.. :           /
-               |     .:::::::::::\`         /
-               |   .:::------------\\       /
-              /   .''               >::'  /
-              \`',:                 :    .'
-                                   \`:.:'  "
+# Récupérer le message de commit
+commit_message=$(git log -1 --pretty=%B)
+
+# Vérifier si le message de commit est propre
+if [[ -z "$commit_message" ]]; then
+  echo "Erreur : le message de commit est vide."
+  exit 1
+fi
+
+# Vérifier si le message de commit respecte un format spécifique (par exemple, doit contenir une première lettre majuscule)
+if ! [[ "$commit_message" =~ ^[A-Z] ]]; then
+  echo "Avertissement : le message de commit doit commencer par une lettre majuscule."
+  echo "Message de commit actuel : $commit_message"
+  echo "Assurez-vous d'utiliser un message de commit descriptif."
+  echo "Vous pouvez utiliser la convention suivante : [TYPE] Sujet de votre commit"
+  exit 1
+fi
+
+# Afficher des informations sur le commit
+echo "Détails du commit :"
+echo "-------------------"
+echo "Message de commit : $commit_message"
+echo "Fichiers modifiés :"
+git diff --cached --name-only
+
+# Vous pouvez ajouter d'autres vérifications ou des informations ici
+
+echo "Préparation à valider les modifications..."
