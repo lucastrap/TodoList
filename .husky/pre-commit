@@ -1,31 +1,37 @@
-npm test
 
+# Codes couleur pour améliorer la visibilité
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+CYAN='\033[1;36m'
+BOLD='\033[1m'
+RESET='\033[0m'
 
 # Récupérer le message de commit
 commit_message=$(git log -1 --pretty=%B)
 
 # Vérifier si le message de commit est propre
 if [[ -z "$commit_message" ]]; then
-  echo "Erreur : le message de commit est vide."
+  echo -e "${RED}${BOLD}Erreur : le message de commit est vide.${RESET}"
+  echo -e "${YELLOW}Veuillez ajouter un message de commit descriptif et recommencer.${RESET}"
   exit 1
 fi
 
-# Vérifier si le message de commit respecte un format spécifique (par exemple, doit contenir une première lettre majuscule)
+# Vérifier si le message de commit commence par une majuscule
 if ! [[ "$commit_message" =~ ^[A-Z] ]]; then
-  echo "Avertissement : le message de commit doit commencer par une lettre majuscule."
-  echo "Message de commit actuel : $commit_message"
-  echo "Assurez-vous d'utiliser un message de commit descriptif."
-  echo "Vous pouvez utiliser la convention suivante : [TYPE] Sujet de votre commit"
+  echo -e "${YELLOW}${BOLD}Avertissement : le message de commit doit commencer par une lettre majuscule.${RESET}"
+  echo -e "${CYAN}Message de commit actuel :${RESET} $commit_message"
+  echo -e "${YELLOW}Assurez-vous d'utiliser un message de commit descriptif, par exemple : ${BOLD}[TYPE] Sujet de votre commit${RESET}"
   exit 1
 fi
 
-# Afficher des informations sur le commit
-echo "Détails du commit :"
-echo "-------------------"
-echo "Message de commit : $commit_message"
-echo "Fichiers modifiés :"
+# Afficher des informations sur le commit avec des couleurs
+echo -e "${GREEN}${BOLD}Détails du commit :${RESET}"
+echo -e "${CYAN}-------------------${RESET}"
+echo -e "${CYAN}Message de commit :${RESET} ${BOLD}$commit_message${RESET}"
+echo -e "${CYAN}Fichiers modifiés :${RESET}"
 git diff --cached --name-only
 
 # Vous pouvez ajouter d'autres vérifications ou des informations ici
 
-echo "Préparation à valider les modifications..."
+echo -e "${GREEN}${BOLD}Préparation à valider les modifications...${RESET}"
