@@ -5,8 +5,7 @@ namespace App\Controller;
 
 
 use App\Entity\Task;
-use Symfony\Component\HttpFoundation\Response; // Assurez-vous que cette ligne est présente
-
+use Symfony\Component\HttpFoundation\Response; 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -44,7 +43,7 @@ class TaskController extends AbstractController
                 'id' => $task->getId(),
                 'title' => $task->getTitle(),
                 'completed' => $task->isCompleted(),
-                'priority' => $task->getPriority() // Assurez-vous de retourner la priorité ici
+                'priority' => $task->getPriority() 
             ];
         }
     
@@ -60,7 +59,7 @@ class TaskController extends AbstractController
         $task = new Task();
         $task->setTitle($data['title']);
         $task->setCompleted(false);
-        $task->setPriority($data['priority']); // Ajoutez cette ligne
+        $task->setPriority($data['priority']); 
         
         $this->entityManager->persist($task);
         $this->entityManager->flush();
