@@ -1,7 +1,5 @@
 npm test
 
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
 
 # Récupérer le message de commit
 commit_message=$(git log -1 --pretty=%B)
