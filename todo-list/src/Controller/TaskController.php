@@ -38,32 +38,37 @@ class TaskController extends AbstractController
     {
         $tasks = $this->entityManager->getRepository(Task::class)->findAll();
         $data = [];
-
+    
         foreach ($tasks as $task) {
             $data[] = [
                 'id' => $task->getId(),
                 'title' => $task->getTitle(),
                 'completed' => $task->isCompleted(),
+                'priority' => $task->getPriority() // Assurez-vous de retourner la priorité ici
             ];
         }
-
+    
         return $this->json($data);
     }
+    
 
     #[Route('/api/tasks', methods: ['POST'])]
     public function addTask(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-
+        
         $task = new Task();
         $task->setTitle($data['title']);
         $task->setCompleted(false);
-
+        $task->setPriority($data['priority']); // Ajoutez cette ligne
+        
         $this->entityManager->persist($task);
         $this->entityManager->flush();
-
-        return $this->json(['id' => $task->getId(), 'title' => $task->getTitle(), 'completed' => false]);
+        
+        return $this->json(['id' => $task->getId(), 'title' => $task->getTitle(), 'completed' => false, 'priority' => $task->getPriority()]);
     }
+    
+    
 
     #[Route('/api/tasks/{id}', methods: ['DELETE'])]
     public function deleteTask(int $id): JsonResponse
@@ -84,13 +89,18 @@ class TaskController extends AbstractController
         $task = $this->entityManager->getRepository(Task::class)->find($id);
         
         if ($task) {
-            $task->setCompleted(true);
+            $newStatus = !$task->isCompleted();
+            $task->setCompleted($newStatus);
             $this->entityManager->flush(); 
     
-            return new JsonResponse(['message' => 'Task completed successfully'], 200);
+            return $this->json([
+                'message' => $newStatus ? 'Task completed successfully' : 'Task uncompleted successfully',
+                'completed' => $newStatus
+            ]);
         }
-    
-        return new JsonResponse(['error' => 'Task not found'], 404);
+        
+        return $this->json(['error' => 'Task not found'], 404);
     }
+    
     
 }

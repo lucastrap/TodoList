@@ -1,19 +1,95 @@
-
+/* Styles généraux */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     margin: 20px;
+    background-color: #f8f9fa; /* Couleur de fond */
+    color: #343a40; /* Couleur du texte */
 }
+
+/* Styles du titre */
+h1 {
+    text-align: center; /* Centrer le titre */
+    margin-bottom: 20px;
+    font-size: 2.5em; /* Augmenter la taille de la police */
+}
+
+/* Styles du formulaire */
 form {
+    display: flex; /* Aligner les éléments en ligne */
+    justify-content: center; /* Centrer le formulaire */
     margin-bottom: 20px;
 }
-ul {
-    list-style-type: none;
-    padding: 0;
+
+input[type="text"] {
+    flex: 1; /* Prendre tout l'espace disponible */
+    padding: 10px; /* Espacement intérieur */
+    border: 1px solid #ced4da; /* Bordure gris clair */
+    border-radius: 5px; /* Coins arrondis */
+    margin-right: 10px; /* Espacement entre l'input et le bouton */
+    transition: border-color 0.3s ease; /* Transition pour la couleur de la bordure */
 }
+
+input[type="text"]:focus {
+    border-color: #80bdff; /* Couleur de la bordure lors de la mise au point */
+    outline: none; /* Enlever le contour par défaut */
+}
+
+/* Styles de la liste */
+ul {
+    list-style-type: none; /* Enlever les puces */
+    padding: 0;
+    max-width: 600px; /* Largeur maximale de la liste */
+    margin: auto; /* Centrer la liste */
+}
+
+/* Styles des éléments de la liste */
 li {
     display: flex;
-    justify-content: space-between;
-    margin: 5px 0;
-    padding: 10px;
-    border: 1px solid #ddd;
+    justify-content: space-between; /* Espacer les éléments */
+    align-items: center; /* Centrer verticalement */
+    margin: 5px 0; /* Marge entre les éléments */
+    padding: 10px; /* Espacement intérieur */
+    border: 1px solid #ddd; /* Bordure gris clair */
+    border-radius: 5px; /* Coins arrondis */
+    background-color: white; /* Couleur de fond blanche */
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; /* Transition pour les effets */
+}
+
+/* Effets lors du survol */
+li:hover {
+    transform: scale(1.02); /* Agrandir légèrement */
+    background-color: #e9ecef; /* Changer la couleur de fond */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ajouter une ombre */
+}
+
+/* Styles des boutons */
+.btn {
+    margin-left: 5px; /* Espacement entre les boutons */
+    border: none; /* Enlever la bordure par défaut */
+    padding: 8px 12px; /* Espacement intérieur */
+    border-radius: 5px; /* Coins arrondis */
+    cursor: pointer; /* Changer le curseur */
+    transition: background-color 0.3s ease; /* Transition pour la couleur de fond */
+}
+
+.btn:hover {
+    background-color: #007bff; /* Couleur de fond lors du survol */
+    color: white; /* Couleur du texte */
+}
+
+/* Styles spécifiques aux boutons de suppression et de validation */
+.btn-danger {
+    background-color: #dc3545; /* Couleur de fond pour le bouton supprimer */
+}
+
+.btn-danger:hover {
+    background-color: #c82333; /* Couleur de fond lors du survol */
+}
+
+.btn-success {
+    background-color: #28a745; /* Couleur de fond pour le bouton terminer */
+}
+
+.btn-success:hover {
+    background-color: #218838; /* Couleur de fond lors du survol */
 }

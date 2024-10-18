@@ -18,6 +18,11 @@ class Task
 
     #[ORM\Column]
     private ?bool $completed = null;
+    
+    
+    #[ORM\Column]
+    private $priority;
+
 
     public function getId(): ?int
     {
@@ -44,6 +49,20 @@ class Task
     public function setCompleted(bool $completed): static
     {
         $this->completed = $completed;
+
+        return $this;
+    }
+
+  
+   
+    public function getPriority(): ?string
+    {
+        return $this->priority;
+    }
+
+    public function setPriority(string $priority): self
+    {
+        $this->priority = $priority;
 
         return $this;
     }
