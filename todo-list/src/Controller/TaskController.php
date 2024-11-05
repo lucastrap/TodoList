@@ -21,7 +21,7 @@ class TaskController extends AbstractController
         $this->entityManager = $entityManager;
     }
     
-  
+    
     #[Route('/index', name: 'index')]
     public function index(): Response
     {
@@ -33,40 +33,58 @@ class TaskController extends AbstractController
     }
 
     #[Route('/api/tasks', methods: ['GET'])]
-    public function getTasks(): JsonResponse
-    {
-        $tasks = $this->entityManager->getRepository(Task::class)->findAll();
-        $data = [];
-    
-        foreach ($tasks as $task) {
-            $data[] = [
-                'id' => $task->getId(),
-                'title' => $task->getTitle(),
-                'completed' => $task->isCompleted(),
-                'priority' => $task->getPriority() 
-            ];
-        }
-    
-        return $this->json($data);
+public function getTasks(): JsonResponse
+{
+    $user = $this->getUser();
+    if (!$user) {
+        return $this->json(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
     }
+    
+    $tasks = $this->entityManager->getRepository(Task::class)->findBy(['user' => $user]);
+    $data = [];
+    
+    foreach ($tasks as $task) {
+        $data[] = [
+            'id' => $task->getId(),
+            'title' => $task->getTitle(),
+            'completed' => $task->isCompleted(),
+            'priority' => $task->getPriority()
+        ];
+    }
+    
+    return $this->json($data);
+}
+
     
 
     #[Route('/api/tasks', methods: ['POST'])]
-    public function addTask(Request $request): JsonResponse
-    {
-        $data = json_decode($request->getContent(), true);
-        
-        $task = new Task();
-        $task->setTitle($data['title']);
-        $task->setCompleted(false);
-        $task->setPriority($data['priority']); 
-        
-        $this->entityManager->persist($task);
-        $this->entityManager->flush();
-        
-        return $this->json(['id' => $task->getId(), 'title' => $task->getTitle(), 'completed' => false, 'priority' => $task->getPriority()]);
-    }
+public function addTask(Request $request): JsonResponse
+{
+    $data = json_decode($request->getContent(), true);
     
+    $task = new Task();
+    $task->setTitle($data['title']);
+    $task->setCompleted(false);
+    $task->setPriority($data['priority']);
+    $task->setUser($this->getUser()); // Associer la tâche à l'utilisateur connecté
+
+    $this->entityManager->persist($task);
+    $this->entityManager->flush();
+    
+    return $this->json(['id' => $task->getId(), 'title' => $task->getTitle(), 'completed' => false, 'priority' => $task->getPriority()]);
+}
+
+    // Dans le contrôleur de sécurité ou le contrôleur approprié
+#[Route('/api/check-auth', methods: ['GET'])]
+public function checkAuthStatus(): JsonResponse
+{
+    if ($this->getUser()) {
+        return new JsonResponse(['authenticated' => true]);
+    } else {
+        return new JsonResponse(['authenticated' => false], JsonResponse::HTTP_UNAUTHORIZED);
+    }
+}
+
     
 
     #[Route('/api/tasks/{id}', methods: ['DELETE'])]
@@ -81,7 +99,7 @@ class TaskController extends AbstractController
 
         return new JsonResponse(['error' => 'Task not found'], 404);
     }
-
+    
     #[Route('/api/tasks/{id}', methods: ['PUT'])]
     public function completeTask(int $id): JsonResponse
     {

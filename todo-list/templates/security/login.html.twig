@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="css.css">
+    <title>Login & Register</title>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Login</h1>
+
+        <div class="row">
+            <!-- Formulaire de connexion -->
+            <div class="col-md-6">
+                <form action="{{ path('app_login') }}" method="post">
+                    <div class="form-group">
+                        <label for="username">Email</label>
+                        <input type="text" id="username" name="_username" class="form-control" value="{{ last_username }}" required autofocus>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="_password" class="form-control" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+            </div>
+
+            <!-- Formulaire d'inscription -->
+            <div class="col-md-6">
+                <h2 class="text-center">Register</h2>
+                <form action="{{ path('app_register') }}" method="post">
+                    <div class="form-group">
+                        <label for="registerEmail">Email</label>
+                        <input type="email" id="registerEmail" name="email" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerPassword">Password</label>
+                        <input type="password" id="registerPassword" name="password" class="form-control" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="javascript.js"></script>
+</body>
+</html>

@@ -55,6 +55,27 @@ li {
     transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; /* Transition pour les effets */
 }
 
+input[type="checkbox"] {
+    margin-right: 10px; /* Espacement entre la case à cocher et le texte */
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+button i {
+    font-size: 20px; /* Taille de l'icône */
+    color: #dc3545; /* Couleur par défaut pour l'icône de suppression */
+    transition: color 0.3s ease; /* Transition pour la couleur */
+}
+
+button:hover i {
+    color: #c82333; /* Couleur de l'icône lors du survol */
+}
+
 /* Effets lors du survol */
 li:hover {
     transform: scale(1.02); /* Agrandir légèrement */
@@ -92,4 +113,8 @@ li:hover {
 
 .btn-success:hover {
     background-color: #218838; /* Couleur de fond lors du survol */
+}
+
+.completed {
+    color: #6c757d; /* Couleur grise pour le texte barré */
 }

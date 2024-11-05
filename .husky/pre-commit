@@ -35,3 +35,5 @@ git diff --cached --name-only
 # Vous pouvez ajouter d'autres vérifications ou des informations ici
 
 echo -e "${GREEN}${BOLD}Préparation à valider les modifications...${RESET}"
+
+echo -e "${GREEN}${BOLD}Validation réussie !${RESET}"

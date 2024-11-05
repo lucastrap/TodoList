@@ -1,34 +1,43 @@
 document.addEventListener("DOMContentLoaded", function() {
     const taskForm = document.getElementById('taskForm');
     const taskInput = document.getElementById('taskInput');
+    const prioritySelect = document.getElementById('prioritySelect');
     const taskList = document.getElementById('taskList');
 
     // Récupère les tâches
     function fetchTasks() {
         fetch('/api/tasks')
-            .then(response => response.json())
-            .then(tasks => {
-                taskList.innerHTML = '';
-                tasks.forEach(task => {
-                    const li = document.createElement('li');
-                    li.textContent = `${task.title} - Priority: ${task.priority}`; // Afficher la priorité
-                    const deleteButton = document.createElement('button');
-                    deleteButton.textContent = 'Supprimer';
-                    deleteButton.onclick = () => deleteTask(task.id);
-                    li.appendChild(deleteButton);
+        .then(response => response.json())
+        .then(tasks => {
+            console.log('Response from API:', tasks); // Ajoutez cette ligne pour voir la réponse exacte
+            taskList.innerHTML = '';
+            tasks.forEach(task => {
+                const li = document.createElement('li');
+                li.className = task.completed ? 'completed' : ''; // Ajoutez la classe si la tâche est terminée
+                li.textContent = `${task.title} - Priority: ${task.priority} - Status: ${task.completed ? 'Terminé' : 'Non terminé'}`;
     
-                    const completeButton = document.createElement('button');
-                    completeButton.textContent = 'Terminer';
-                    completeButton.onclick = () => completeTask(task.id);
-                    li.appendChild(completeButton);
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = task.completed; // Vérifie si la tâche est terminée
+                checkbox.onclick = () => completeTask(task.id); // Marquer la tâche comme complète au clic
+                li.prepend(checkbox); // Ajoute la case à cocher au début de l'élément li
     
-                    taskList.appendChild(li);
-                });
-            })
-            .catch(error => {
-                console.error('Erreur lors de la récupération des tâches:', error);
+                const deleteButton = document.createElement('button');
+                deleteButton.innerHTML = '<i class="fas fa-trash"></i>'; // Icône de la corbeille
+                deleteButton.onclick = () => deleteTask(task.id);
+                li.appendChild(deleteButton);
+    
+                taskList.appendChild(li);
             });
+        })
+        .catch(error => {
+            console.error('Erreur lors de la récupération des tâches:', error);
+        });
+    
     }
+
+
+    
     
     taskForm.addEventListener('submit', function(event) {
         event.preventDefault();
@@ -53,7 +62,35 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
     
-    
+
+    // Fonction pour vérifier si l'utilisateur est connecté
+function checkAuthentication() {
+    return fetch('/api/check-auth', {
+        method: 'GET',
+        credentials: 'same-origin' // Pour inclure les cookies dans la requête
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.authenticated) {
+            return true; // L'utilisateur est authentifié
+        } else {
+            window.location.href = '/login'; // Redirige vers la page de connexion
+            return false;
+        }
+    })
+    .catch(error => {
+        console.error('Erreur lors de la vérification de l\'authentification:', error);
+        window.location.href = '/login'; // Redirige vers la page de connexion en cas d'erreur
+        return false;
+    });
+}
+
+// Appeler cette fonction avant de charger les tâches
+checkAuthentication().then(isAuthenticated => {
+    if (isAuthenticated) {
+        fetchTasks(); // Charge les tâches seulement si l'utilisateur est connecté
+    }
+});
 
     // Supprime une tâche
     function deleteTask(id) {
@@ -84,7 +121,6 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error('Erreur:', error.message);
         });
     }
-    
 
     fetchTasks();
 });
