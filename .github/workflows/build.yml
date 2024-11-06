@@ -54,12 +54,3 @@ jobs:
         run: rm -rf data/database.sqlite
 
   # Trigger the Staging workflow if tests pass
-  trigger_staging:
-    needs: symfony-tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger Staging Deployment
-        uses: peter-evans/workflow-dispatch@v1
-        with:
-          workflow: 'staging.yml'
-          ref: ${{ github.ref }}

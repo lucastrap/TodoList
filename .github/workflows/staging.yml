@@ -20,13 +20,3 @@ jobs:
           # Fake deployment command
           echo "Staging deployment is successful!"
 
-  trigger_production:
-    needs: staging_deploy
-    runs-on: ubuntu-latest
-    if: ${{ success() }}
-    steps:
-      - name: Trigger Production Deployment
-        uses: peter-evans/workflow-dispatch@v1
-        with:
-          workflow: 'production.yml'
-          ref: ${{ github.ref }}
