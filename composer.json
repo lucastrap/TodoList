@@ -12,7 +12,9 @@
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^3.3",
         "nelmio/api-doc-bundle": "^4.32",
+        "phpunit/phpunit": "^9.6",
         "symfony/asset": "7.1.*",
+        "symfony/phpunit-bridge": "^6.0", 
         "symfony/console": "7.1.*",
         "symfony/dotenv": "7.1.*",
         "symfony/flex": "^2",
@@ -65,7 +67,8 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "test": "php vendor/bin/phpunit"
     },
     "conflict": {
         "symfony/symfony": "*"
@@ -77,6 +80,7 @@
         }
     },
     "require-dev": {
-        "symfony/maker-bundle": "^1.61"
+        "symfony/maker-bundle": "^1.61",
+        "symfony/phpunit-bridge": "^6.0"  
     }
 }
