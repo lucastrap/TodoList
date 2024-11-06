@@ -1,0 +1,21 @@
+name: Staging Deployment
+
+on:
+  workflow_run:
+    workflows: ["Node.js Build Pipeline"] 
+    types:
+      - completed
+
+jobs:
+  staging_deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }} 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Fake Staging Deployment
+        run: |
+          echo "Deploying to Staging..."
+          # Commande de déploiement fictive
+          echo "Deployment to staging is successful!"
