@@ -10,6 +10,6 @@ class CalculatorServiceTest extends TestCase
     {
     $result = 2 + 3;
 
-        $this->assertEquals(6, $result, "Addition de 2 et 3 devrait être 5.");
+        $this->assertEquals(5, $result, "Addition de 2 et 3 devrait être 5.");
     }
 }
