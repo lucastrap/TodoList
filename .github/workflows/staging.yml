@@ -3,12 +3,14 @@ name: Staging Deployment
 
 on:
   workflow_run:
-    workflows: ["Symfony Build Pipeline"]
+    workflows: ["Symfony Build Pipeline"]  # This listens to the workflow run of build.yml
     types:
-      - completed
+      - completed  # Only trigger when the workflow run is completed
+
 jobs:
   staging_deploy:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}  # Only run if the build.yml was successful
     
     steps:
       - name: Checkout code
@@ -19,4 +21,3 @@ jobs:
           echo "Deploying to Staging..."
           # Fake deployment command
           echo "Staging deployment is successful!"
-
