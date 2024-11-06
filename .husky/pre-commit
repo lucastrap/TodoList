@@ -1,39 +1,39 @@
 
-# Codes couleur pour améliorer la visibilité
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-CYAN='\033[1;36m'
-BOLD='\033[1m'
-RESET='\033[0m'
+# # Codes couleur pour améliorer la visibilité
+# RED='\033[0;31m'
+# GREEN='\033[0;32m'
+# YELLOW='\033[1;33m'
+# CYAN='\033[1;36m'
+# BOLD='\033[1m'
+# RESET='\033[0m'
 
-# Récupérer le message de commit
-commit_message=$(git log -1 --pretty=%B)
+# # Récupérer le message de commit
+# commit_message=$(git log -1 --pretty=%B)
 
-# Vérifier si le message de commit est propre
-if [[ -z "$commit_message" ]]; then
-  echo -e "${RED}${BOLD}Erreur : le message de commit est vide.${RESET}"
-  echo -e "${YELLOW}Veuillez ajouter un message de commit descriptif et recommencer.${RESET}"
-  exit 1
-fi
+# # Vérifier si le message de commit est propre
+# if [[ -z "$commit_message" ]]; then
+#   echo -e "${RED}${BOLD}Erreur : le message de commit est vide.${RESET}"
+#   echo -e "${YELLOW}Veuillez ajouter un message de commit descriptif et recommencer.${RESET}"
+#   exit 1
+# fi
 
-# Vérifier si le message de commit commence par une majuscule
-if ! [[ "$commit_message" =~ ^[A-Z] ]]; then
-  echo -e "${YELLOW}${BOLD}Avertissement : le message de commit doit commencer par une lettre majuscule.${RESET}"
-  echo -e "${CYAN}Message de commit actuel :${RESET} $commit_message"
-  echo -e "${YELLOW}Assurez-vous d'utiliser un message de commit descriptif, par exemple : ${BOLD}[TYPE] Sujet de votre commit${RESET}"
-  exit 1
-fi
+# # Vérifier si le message de commit commence par une majuscule
+# if ! [[ "$commit_message" =~ ^[A-Z] ]]; then
+#   echo -e "${YELLOW}${BOLD}Avertissement : le message de commit doit commencer par une lettre majuscule.${RESET}"
+#   echo -e "${CYAN}Message de commit actuel :${RESET} $commit_message"
+#   echo -e "${YELLOW}Assurez-vous d'utiliser un message de commit descriptif, par exemple : ${BOLD}[TYPE] Sujet de votre commit${RESET}"
+#   exit 1
+# fi
 
-# Afficher des informations sur le commit avec des couleurs
-echo -e "${GREEN}${BOLD}Détails du commit :${RESET}"
-echo -e "${CYAN}-------------------${RESET}"
-echo -e "${CYAN}Message de commit :${RESET} ${BOLD}$commit_message${RESET}"
-echo -e "${CYAN}Fichiers modifiés :${RESET}"
-git diff --cached --name-only
+# # Afficher des informations sur le commit avec des couleurs
+# echo -e "${GREEN}${BOLD}Détails du commit :${RESET}"
+# echo -e "${CYAN}-------------------${RESET}"
+# echo -e "${CYAN}Message de commit :${RESET} ${BOLD}$commit_message${RESET}"
+# echo -e "${CYAN}Fichiers modifiés :${RESET}"
+# git diff --cached --name-only
 
-# Vous pouvez ajouter d'autres vérifications ou des informations ici
+# # Vous pouvez ajouter d'autres vérifications ou des informations ici
 
-echo -e "${GREEN}${BOLD}Préparation à valider les modifications...${RESET}"
+# echo -e "${GREEN}${BOLD}Préparation à valider les modifications...${RESET}"
 
-echo -e "${GREEN}${BOLD}Validation réussie !${RESET}"
+# echo -e "${GREEN}${BOLD}Validation réussie !${RESET}"

@@ -4,8 +4,10 @@ document.addEventListener("DOMContentLoaded", function() {
     const prioritySelect = document.getElementById('prioritySelect');
     const taskList = document.getElementById('taskList');
 
-    // Récupère les tâches
+  
+        // Récupère les tâches
     function fetchTasks() {
+        if (window.location.pathname !== '/login') {
         fetch('/api/tasks')
         .then(response => response.json())
         .then(tasks => {
@@ -35,11 +37,12 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     
     }
+}
 
 
     
-    
-    taskForm.addEventListener('submit', function(event) {
+    if (window.location.pathname !== '/login') {
+        taskForm.addEventListener('submit', function(event) {
         event.preventDefault();
         const taskTitle = taskInput.value;
         const priority = document.getElementById('prioritySelect').value; // Récupérer la priorité
@@ -61,10 +64,13 @@ document.addEventListener("DOMContentLoaded", function() {
             fetchTasks();
         });
     });
+}
     
+
 
     // Fonction pour vérifier si l'utilisateur est connecté
 function checkAuthentication() {
+    if (window.location.pathname !== '/login') {
     return fetch('/api/check-auth', {
         method: 'GET',
         credentials: 'same-origin' // Pour inclure les cookies dans la requête
@@ -85,12 +91,17 @@ function checkAuthentication() {
     });
 }
 
+}
+if (window.location.pathname !== '/login') {
+    
 // Appeler cette fonction avant de charger les tâches
 checkAuthentication().then(isAuthenticated => {
     if (isAuthenticated) {
         fetchTasks(); // Charge les tâches seulement si l'utilisateur est connecté
     }
+    
 });
+}
 
     // Supprime une tâche
     function deleteTask(id) {

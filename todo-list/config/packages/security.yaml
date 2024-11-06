@@ -12,12 +12,17 @@ security:
         main:
             lazy: true
             provider: users_in_memory
+            form_login:
+                login_path: app_login # La route pour afficher la page de connexion
+                check_path: app_login # La route pour traiter le formulaire de connexion
+                username_parameter: _username # Nom du champ dans le formulaire (email)
+                password_parameter: _password # Nom du champ pour le mot de passe
+                default_target_path: /index # Page de redirection après la connexion
 
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#the-firewall
+            logout:
+                path: app_logout # Route pour la déconnexion
+                target: app_login # Page de redirection après déconnexion
 
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
