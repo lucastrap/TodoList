@@ -1,6 +1,0 @@
-version: 2
-updates:
-  - package-ecosystem: "npm"  # Pour un projet Node.js
-    directory: "/"  # Répertoire racine de votre projet
-    schedule:
-      interval: "weekly"  # Mise à jour des dépendances chaque semaine
