@@ -1,0 +1,32 @@
+# .github/workflows/staging.yml
+name: Staging Deployment
+
+on:
+  workflow_run:
+    workflows: ["Symfony Build Pipeline"]
+    types:
+      - completed
+jobs:
+  staging_deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Fake Staging Deployment
+        run: |
+          echo "Deploying to Staging..."
+          # Fake deployment command
+          echo "Staging deployment is successful!"
+
+  trigger_production:
+    needs: staging_deploy
+    runs-on: ubuntu-latest
+    if: ${{ success() }}
+    steps:
+      - name: Trigger Production Deployment
+        uses: peter-evans/workflow-dispatch@v1
+        with:
+          workflow: 'production.yml'
+          ref: ${{ github.ref }}

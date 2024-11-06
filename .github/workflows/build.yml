@@ -1,4 +1,5 @@
-name: Symfony CI Pipeline
+# .github/workflows/build.yml
+name: Symfony Build Pipeline
 
 on:
   push:
@@ -13,20 +14,17 @@ jobs:
   symfony-tests:
     runs-on: ubuntu-latest
     steps:
-      # Configuration PHP avec versionnage flexible pour bénéficier des mises à jour de sécurité
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
           tools: composer
 
-      # Cloner le dépôt
       - uses: actions/checkout@v4
 
-      # Configurer le fichier d'environnement pour les tests
       - name: Set up test environment
         run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
 
-      # Cache des packages Composer
+      # Cache Composer dependencies
       - name: Cache Composer dependencies
         id: composer-cache
         uses: actions/cache@v3
@@ -36,22 +34,34 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-php-
 
-      # Installation des dépendances Composer
+      # Install Composer dependencies
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
-      # Préparer la base de données pour les tests
+      # Prepare the SQLite database for tests
       - name: Create SQLite Database
         run: |
           mkdir -p data
           touch data/database.sqlite
 
-      # Exécuter les tests unitaires et fonctionnels via PHPUnit
+      # Run PHPUnit tests
       - name: Run PHPUnit tests
         env:
           DATABASE_URL: sqlite:///%kernel.project_dir%/data/database.sqlite
         run: vendor/bin/phpunit
 
-      # Nettoyage de l’environnement après les tests (optionnel)
+      # Clean up after tests
       - name: Clean up test environment
         run: rm -rf data/database.sqlite
+
+  # Trigger the Staging workflow if tests pass
+  trigger_staging:
+    needs: symfony-tests
+    runs-on: ubuntu-latest
+    if: ${{ success() }}
+    steps:
+      - name: Trigger Staging Deployment
+        uses: peter-evans/workflow-dispatch@v1
+        with:
+          workflow: 'staging.yml'
+          ref: ${{ github.ref }}
