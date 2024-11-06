@@ -1,3 +1,4 @@
+# .github/workflows/build.yml
 name: Symfony Build Pipeline
 
 on:
@@ -54,3 +55,13 @@ jobs:
         run: rm -rf data/database.sqlite
 
   # Trigger the Staging workflow if tests pass
+  trigger_staging:
+    needs: symfony-tests  # This job will run only if `symfony-tests` was successful
+    runs-on: ubuntu-latest
+    if: ${{ success() }}  
+    steps:
+      - name: Trigger Staging Deployment
+        uses: peter-evans/workflow-dispatch@v1
+        with:
+          workflow: 'staging.yml'
+          ref: ${{ github.ref }}
