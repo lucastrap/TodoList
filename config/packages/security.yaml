@@ -4,20 +4,24 @@ security:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        users_in_memory: { memory: null }
+          app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             lazy: true
-            provider: users_in_memory
+            provider: app_user_provider
             form_login:
-                login_path: app_login # La route pour afficher la page de connexion
-                check_path: app_login # La route pour traiter le formulaire de connexion
-                username_parameter: _username # Nom du champ dans le formulaire (email)
-                password_parameter: _password # Nom du champ pour le mot de passe
-                default_target_path: /index # Page de redirection après la connexion
+                login_path: app_login # Route pour afficher la page de connexion
+                check_path: app_login # Route pour traiter le formulaire de connexion
+                username_parameter: email # Correspond au champ du formulaire de connexion
+                password_parameter: password # Correspond au champ du formulaire de connexion
+                default_target_path: /index # Page de redirection après connexion
+                always_use_default_target_path: false # Redirige vers la page précédemment visitée si possible
 
             logout:
                 path: app_logout # Route pour la déconnexion

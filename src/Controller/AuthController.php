@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+
 class AuthController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
@@ -60,4 +61,13 @@ class AuthController extends AbstractController
             'error'         => $error,
         ]);
     }
+
+    #[Route('/logout', name: 'app_logout', methods: ['GET'])]
+    public function logout(): void
+    {
+        // Symfony gère automatiquement la déconnexion via le pare-feu
+        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+    }
+
+
 }

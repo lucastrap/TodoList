@@ -11,6 +11,12 @@
 <body>
     <div class="container task-list">
         <h1 class="text-center">To-Do List</h1>
+        
+        <!-- Bouton de déconnexion -->
+        <a href="./logout" class="btn btn-danger">
+            Logout
+        </a>
+        
 
         <form id="taskForm">
             <input type="text" id="taskInput" placeholder="Enter a task" required>
@@ -20,7 +26,7 @@
                 <option value="medium">Medium</option>
                 <option value="high">High</option>
             </select>
-            <button type="submit">Ajouter la tache</button>
+            <button type="submit" class="btn btn-primary">Ajouter la tache</button>
         </form>
 
         <ul id="taskList" class="list-group"></ul>
